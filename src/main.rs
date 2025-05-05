@@ -17,27 +17,28 @@ struct Args {
 enum Case {
     #[value(name = "snake_case")]
     #[value(alias = "snake")]
-    #[value(alias = "Snake")]
+    #[value(help = "snake_case format (alias: snake)")]
     Snake,
 
     #[value(name = "UPPER_SNAKE_CASE")]
     #[value(alias = "upper_snake")]
     #[value(alias = "upper-snake")]
-    #[value(alias = "UpperSnake")]
+    #[value(help = "UPPER_SNAKE_CASE format (aliases: upper_snake, upper-snake)")]
     UpperSnake,
 
     #[value(name = "camelCase")]
     #[value(alias = "camel")]
-    #[value(alias = "Camel")]
+    #[value(help = "camelCase format (alias: camel)")]
     Camel,
 
     #[value(name = "PascalCase")]
     #[value(alias = "pascal")]
-    #[value(alias = "Pascal")]
+    #[value(help = "PascalCase format (alias: pascal)")]
     Pascal,
 
     #[value(name = "kebab-case")]
     #[value(alias = "kebab")]
+    #[value(help = "kebab-case format (alias: kebab)")]
     Kebab,
 }
 
