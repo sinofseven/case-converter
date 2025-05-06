@@ -53,7 +53,11 @@ jobs:
       - name: Install musl dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y musl-tools
+          sudo apt-get install -y musl-tools musl-dev gcc-aarch64-linux-gnu
+      - name: Set musl-gcc as the linker
+        run: |
+          echo "[target.aarch64-unknown-linux-musl]" >> ~/.cargo/config
+          echo "linker = \"aarch64-linux-musl-gcc\"" >> ~/.cargo/config
       - name: Build (ARM-Linux)
         uses: actions-rs/cargo@v1
         with:
