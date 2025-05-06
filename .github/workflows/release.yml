@@ -34,9 +34,9 @@ jobs:
       - name: Package Linux Build (x86_64)
         run: |
           mkdir -p release
-          cp target/x86_64-unknown-linux-musl/release/case-converter release/case-converter-x86_64-linux
+          cp target/x86_64-unknown-linux-musl/release/case-converter release/
           cd release
-          zip -r case-converter-linux-x86_64.zip case-converter-x86_64-linux
+          zip -r case-converter-linux-x86_64.zip case-converter
       - name: Upload Linux x86_64 artifact
         uses: actions/upload-artifact@v4 # Updated to v4
         with:
@@ -82,9 +82,9 @@ jobs:
       - name: Package Linux Build (ARM)
         run: |
           mkdir -p release
-          cp target/aarch64-unknown-linux-musl/release/case-converter release/case-converter-arm-linux
+          cp target/aarch64-unknown-linux-musl/release/case-converter release/
           cd release
-          zip -r case-converter-linux-arm.zip case-converter-arm-linux
+          zip -r case-converter-linux-arm.zip case-converter
       - name: Upload Linux ARM artifact
         uses: actions/upload-artifact@v4 # Updated to v4
         with:
@@ -110,7 +110,7 @@ jobs:
       - name: Package Windows Build
         run: |
           mkdir -p release
-          cp target/release/case-converter.exe release/
+          cp target/release/case-converter.exe release/case-converter.exe
           cd release
           Compress-Archive -Path case-converter.exe -DestinationPath case-converter-windows.zip
         shell: pwsh
@@ -139,9 +139,9 @@ jobs:
       - name: Package macOS Build
         run: |
           mkdir -p release
-          cp target/release/case-converter release/case-converter-macos
+          cp target/release/case-converter release/
           cd release
-          zip -r case-converter-macos.zip case-converter-macos
+          zip -r case-converter-macos.zip case-converter
       - name: Upload macOS artifact
         uses: actions/upload-artifact@v4 # Updated to v4
         with:
