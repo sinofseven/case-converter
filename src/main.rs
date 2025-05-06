@@ -6,11 +6,20 @@ use std::io::{self, Read};
 #[command(about = "Converts text between different case styles")]
 struct Args {
     /// The case to convert to
-    #[arg(short = 'c', long = "case", value_enum)]
-    case: Case,
+    #[arg(
+        short = 'c',
+        long = "case",
+        value_enum,
+        required_unless_present = "show_version"
+    )]
+    case: Option<Case>,
 
     /// The input text to convert (if not provided, reads from stdin)
     text: Option<String>,
+
+    /// Print version information
+    #[arg(short = 'v', long = "version")]
+    show_version: bool,
 }
 
 #[derive(Copy, Clone, PartialEq, Eq, ValueEnum)]
@@ -44,20 +53,33 @@ enum Case {
 
 fn main() {
     let args = Args::parse();
-    
+
+    // Check if version flag was used
+    if args.show_version {
+        println!("case-converter {}", env!("CARGO_PKG_VERSION"));
+        return;
+    }
+
+    // Case should be present at this point due to the `required_unless_present` attribute
+    let case = args
+        .case
+        .expect("Case should be present when not showing version");
+
     // Get the input text either from command line arguments or stdin
     let input = match args.text {
         Some(text) => text,
         None => {
             let mut buffer = String::new();
-            io::stdin().read_to_string(&mut buffer).expect("Failed to read from stdin");
+            io::stdin()
+                .read_to_string(&mut buffer)
+                .expect("Failed to read from stdin");
             buffer.trim().to_string()
         }
     };
-    
+
     // Convert the input to the desired case
-    let output = convert_case(&input, args.case);
-    
+    let output = convert_case(&input, case);
+
     // Output the result
     println!("{}", output);
 }
@@ -65,7 +87,7 @@ fn main() {
 fn convert_case(input: &str, case: Case) -> String {
     // First, we normalize the input by splitting it into words
     let words = split_into_words(input);
-    
+
     // Then convert to the desired case
     match case {
         Case::Snake => words.join("_").to_lowercase(),
@@ -80,13 +102,12 @@ fn convert_case(input: &str, case: Case) -> String {
                 }
                 result
             }
-        },
-        Case::Pascal => {
-            words.iter()
-                .map(|word| capitalize(word))
-                .collect::<Vec<_>>()
-                .join("")
-        },
+        }
+        Case::Pascal => words
+            .iter()
+            .map(|word| capitalize(word))
+            .collect::<Vec<_>>()
+            .join(""),
         Case::Kebab => words.join("-").to_lowercase(),
     }
 }
@@ -101,7 +122,7 @@ fn split_into_words(input: &str) -> Vec<String> {
     // It handles camelCase, PascalCase, snake_case, kebab-case
     let mut words = Vec::new();
     let mut current_word = String::new();
-    
+
     // Helper to add the current word to our words list and reset it
     let add_word = |words: &mut Vec<String>, current_word: &mut String| {
         if !current_word.is_empty() {
@@ -109,25 +130,25 @@ fn split_into_words(input: &str) -> Vec<String> {
             current_word.clear();
         }
     };
-    
+
     let chars: Vec<char> = input.chars().collect();
     let mut i = 0;
-    
+
     while i < chars.len() {
         match chars[i] {
             // Skip separators, but add the current word if we have one
             '_' | '-' | ' ' => {
                 add_word(&mut words, &mut current_word);
-            },
+            }
             // For uppercase letters, we might need to start a new word
             c if c.is_uppercase() => {
                 // If we're not at the start of the input and the current word is not empty,
                 // and the previous character is lowercase, we start a new word
-                if i > 0 && !current_word.is_empty() && chars[i-1].is_lowercase() {
+                if i > 0 && !current_word.is_empty() && chars[i - 1].is_lowercase() {
                     add_word(&mut words, &mut current_word);
                 }
                 current_word.push(c);
-            },
+            }
             // For any other character, just add it to the current word
             c => {
                 current_word.push(c);
@@ -135,10 +156,10 @@ fn split_into_words(input: &str) -> Vec<String> {
         }
         i += 1;
     }
-    
+
     // Don't forget to add the last word
     add_word(&mut words, &mut current_word);
-    
+
     words
 }
 
