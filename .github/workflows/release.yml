@@ -9,7 +9,7 @@ jobs:
   build-linux-x86_64:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4 # Updated to v4
       - name: Setup Rust
         uses: actions-rs/toolchain@v1
         with:
@@ -37,7 +37,7 @@ jobs:
   build-linux-arm:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4 # Updated to v4
       - name: Setup Rust
         uses: actions-rs/toolchain@v1
         with:
@@ -70,7 +70,7 @@ jobs:
   build-windows:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4 # Updated to v4
       - name: Setup Rust
         uses: actions-rs/toolchain@v1
         with:
@@ -99,7 +99,7 @@ jobs:
   build-macos:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4 # Updated to v4
       - name: Setup Rust
         uses: actions-rs/toolchain@v1
         with:
