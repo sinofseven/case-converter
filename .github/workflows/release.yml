@@ -15,16 +15,21 @@ jobs:
         with:
           profile: minimal
           toolchain: stable
+          target: x86_64-unknown-linux-musl # Changed target to musl
           override: true
+      - name: Install musl dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y musl-tools
       - name: Build (x86_64-Linux)
         uses: actions-rs/cargo@v1
         with:
           command: build
-          args: --release
+          args: --release --target x86_64-unknown-linux-musl # Added target
       - name: Package Linux Build (x86_64)
         run: |
           mkdir -p release
-          cp target/release/case-converter release/case-converter-x86_64-linux
+          cp target/x86_64-unknown-linux-musl/release/case-converter release/case-converter-x86_64-linux
           cd release
           zip -r case-converter-linux-x86_64.zip case-converter-x86_64-linux
       - name: Upload Linux x86_64 artifact
@@ -43,21 +48,21 @@ jobs:
         with:
           profile: minimal
           toolchain: stable
-          target: aarch64-unknown-linux-gnu
+          target: aarch64-unknown-linux-musl # Changed target to musl
           override: true
-      - name: Install ARM cross-compile dependencies
+      - name: Install musl dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y gcc-aarch64-linux-gnu
+          sudo apt-get install -y musl-tools
       - name: Build (ARM-Linux)
         uses: actions-rs/cargo@v1
         with:
           command: build
-          args: --release --target aarch64-unknown-linux-gnu
+          args: --release --target aarch64-unknown-linux-musl # Added target
       - name: Package Linux Build (ARM)
         run: |
           mkdir -p release
-          cp target/aarch64-unknown-linux-gnu/release/case-converter release/case-converter-arm-linux
+          cp target/aarch64-unknown-linux-musl/release/case-converter release/case-converter-arm-linux
           cd release
           zip -r case-converter-linux-arm.zip case-converter-arm-linux
       - name: Upload Linux ARM artifact
