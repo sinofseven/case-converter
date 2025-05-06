@@ -1,6 +1,6 @@
-# Case Converter
+# Luciferous Case Converter
 
-Case Converter is a CLI tool built in Rust that transforms text between different case styles such as snake_case, camelCase, PascalCase, and more.
+Luciferous Case Converter is a CLI tool built in Rust that transforms text between different case styles such as snake_case, camelCase, PascalCase, and more.
 
 ## Features
 
