@@ -50,10 +50,12 @@ jobs:
           toolchain: stable
           target: aarch64-unknown-linux-musl # Changed target to musl
           override: true
-      - name: Install musl dependencies
+      - name: Install musl dependencies and musl-cross
         run: |
           sudo apt-get update
-          sudo apt-get install -y musl-tools musl-dev gcc-aarch64-linux-gnu
+          sudo apt-get install -y musl-tools musl-dev
+          sudo apt-get install -y gcc-10-aarch64-linux-gnu
+          sudo ln -s /usr/bin/aarch64-linux-gnu-gcc /usr/bin/aarch64-linux-musl-gcc
       - name: Set musl-gcc as the linker
         run: |
           echo "[target.aarch64-unknown-linux-musl]" >> ~/.cargo/config
