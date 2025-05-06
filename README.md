@@ -45,14 +45,21 @@ $ echo "ExampleText" | case-converter -c PascalCase
 ExampleText
 ```
 
+### Version Information
+
+```bash
+$ case-converter -v
+case-converter 0.1.9
+```
+
 ## Available Case Options
 
-- `-c, --case <case>`: Specify the target case (required)
-  - `snake_case` (aliases: `snake`, `Snake`)
-  - `UPPER_SNAKE_CASE` (aliases: `upper_snake`, `upper-snake`, `UpperSnake`)
-  - `camelCase` (aliases: `camel`, `Camel`)
-  - `PascalCase` (aliases: `pascal`, `Pascal`) 
-  - `kebab-case` (aliases: `kebab`)
+- `-c, --case <case>`: Specify the target case (required unless using -v/--version)
+  - `snake_case` (alias: `snake`)
+  - `UPPER_SNAKE_CASE` (aliases: `upper_snake`, `upper-snake`)
+  - `camelCase` (alias: `camel`)
+  - `PascalCase` (alias: `pascal`) 
+  - `kebab-case` (alias: `kebab`)
 
 ## Help
 
