@@ -50,16 +50,25 @@ jobs:
           toolchain: stable
           target: aarch64-unknown-linux-musl # Changed target to musl
           override: true
-      - name: Install musl dependencies and musl-cross
+      - name: Install musl dependencies and cross-compilation tools
         run: |
           sudo apt-get update
-          sudo apt-get install -y musl-tools musl-dev
-          sudo apt-get install -y gcc-10-aarch64-linux-gnu
-          sudo ln -s /usr/bin/aarch64-linux-gnu-gcc /usr/bin/aarch64-linux-musl-gcc
-      - name: Set musl-gcc as the linker
+          sudo apt-get install -y musl-tools
+          
+          # Install cross-compilation toolchain for aarch64
+          wget -q https://musl.cc/aarch64-linux-musl-cross.tgz
+          tar -xzf aarch64-linux-musl-cross.tgz
+          sudo mv aarch64-linux-musl-cross /opt/
+          sudo ln -s /opt/aarch64-linux-musl-cross/bin/aarch64-linux-musl-gcc /usr/local/bin/aarch64-linux-musl-gcc
+          
+          # Verify the linker is properly installed
+          which aarch64-linux-musl-gcc
+      - name: Set cross-compilation linker in Cargo config
         run: |
-          echo "[target.aarch64-unknown-linux-musl]" >> ~/.cargo/config
-          echo "linker = \"aarch64-linux-musl-gcc\"" >> ~/.cargo/config
+          mkdir -p ~/.cargo
+          echo '[target.aarch64-unknown-linux-musl]' >> ~/.cargo/config.toml
+          echo 'linker = "aarch64-linux-musl-gcc"' >> ~/.cargo/config.toml
+          echo 'rustflags = ["-C", "target-feature=+crt-static"]' >> ~/.cargo/config.toml
       - name: Build (ARM-Linux)
         uses: actions-rs/cargo@v1
         with:
