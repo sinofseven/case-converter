@@ -5,6 +5,11 @@ on:
     tags:
       - 'v*'
 
+# Add permissions for GitHub token
+permissions:
+  contents: write
+  packages: write
+  
 jobs:
   build-linux-x86_64:
     runs-on: ubuntu-latest
