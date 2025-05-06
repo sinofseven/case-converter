@@ -1,0 +1,147 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-linux-x86_64:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+      - name: Build (x86_64-Linux)
+        uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: --release
+      - name: Package Linux Build (x86_64)
+        run: |
+          mkdir -p release
+          cp target/release/case-converter release/case-converter-x86_64-linux
+          cd release
+          zip -r case-converter-linux-x86_64.zip case-converter-x86_64-linux
+      - name: Upload Linux x86_64 artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: linux-x86_64-build
+          path: release/*.zip
+          retention-days: 1
+          
+  build-linux-arm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          target: aarch64-unknown-linux-gnu
+          override: true
+      - name: Install ARM cross-compile dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-aarch64-linux-gnu
+      - name: Build (ARM-Linux)
+        uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: --release --target aarch64-unknown-linux-gnu
+      - name: Package Linux Build (ARM)
+        run: |
+          mkdir -p release
+          cp target/aarch64-unknown-linux-gnu/release/case-converter release/case-converter-arm-linux
+          cd release
+          zip -r case-converter-linux-arm.zip case-converter-arm-linux
+      - name: Upload Linux ARM artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: linux-arm-build
+          path: release/*.zip
+          retention-days: 1
+
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+      - name: Build (Windows)
+        uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: --release
+      - name: Package Windows Build
+        run: |
+          mkdir -p release
+          cp target/release/case-converter.exe release/
+          cd release
+          Compress-Archive -Path case-converter.exe -DestinationPath case-converter-windows.zip
+        shell: pwsh
+      - name: Upload Windows artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: windows-build
+          path: release/*.zip
+          retention-days: 1
+
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+      - name: Build (macOS)
+        uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: --release
+      - name: Package macOS Build
+        run: |
+          mkdir -p release
+          cp target/release/case-converter release/case-converter-macos
+          cd release
+          zip -r case-converter-macos.zip case-converter-macos
+      - name: Upload macOS artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: macos-build
+          path: release/*.zip
+          retention-days: 1
+
+  create-release:
+    needs: [build-linux-x86_64, build-linux-arm, build-windows, build-macos]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v3
+        with:
+          path: artifacts
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            artifacts/linux-x86_64-build/case-converter-linux-x86_64.zip
+            artifacts/linux-arm-build/case-converter-linux-arm.zip
+            artifacts/windows-build/case-converter-windows.zip
+            artifacts/macos-build/case-converter-macos.zip
+          draft: true
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
