@@ -167,6 +167,62 @@ fn capitalize(s: &str) -> String {
     let mut chars = s.chars();
     match chars.next() {
         None => String::new(),
-        Some(c) => c.to_uppercase().collect::<String>() + chars.as_str(),
+        Some(c) => c.to_uppercase().collect::<String>() + &chars.as_str().to_lowercase(),
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    const SNAKE: &str = "policy_dynamodb_get_item";
+    const UPPER_SNAKE_STR: &str = "POLICY_DYNAMODB_GET_ITEM";
+    const CAMEL: &str = "policyDynamodbGetItem";
+    const PASCAL: &str = "PolicyDynamodbGetItem";
+    const KEBAB: &str = "policy-dynamodb-get-item";
+
+    #[test]
+    fn test_snake_to_all() {
+        assert_eq!(convert_case(SNAKE, Case::Snake), SNAKE);
+        assert_eq!(convert_case(SNAKE, Case::UpperSnake), UPPER_SNAKE_STR);
+        assert_eq!(convert_case(SNAKE, Case::Camel), CAMEL);
+        assert_eq!(convert_case(SNAKE, Case::Pascal), PASCAL);
+        assert_eq!(convert_case(SNAKE, Case::Kebab), KEBAB);
+    }
+
+    #[test]
+    fn test_upper_snake_to_all() {
+        assert_eq!(convert_case(UPPER_SNAKE_STR, Case::Snake), SNAKE);
+        assert_eq!(convert_case(UPPER_SNAKE_STR, Case::UpperSnake), UPPER_SNAKE_STR);
+        assert_eq!(convert_case(UPPER_SNAKE_STR, Case::Camel), CAMEL);
+        assert_eq!(convert_case(UPPER_SNAKE_STR, Case::Pascal), PASCAL);
+        assert_eq!(convert_case(UPPER_SNAKE_STR, Case::Kebab), KEBAB);
+    }
+
+    #[test]
+    fn test_camel_to_all() {
+        assert_eq!(convert_case(CAMEL, Case::Snake), SNAKE);
+        assert_eq!(convert_case(CAMEL, Case::UpperSnake), UPPER_SNAKE_STR);
+        assert_eq!(convert_case(CAMEL, Case::Camel), CAMEL);
+        assert_eq!(convert_case(CAMEL, Case::Pascal), PASCAL);
+        assert_eq!(convert_case(CAMEL, Case::Kebab), KEBAB);
+    }
+
+    #[test]
+    fn test_pascal_to_all() {
+        assert_eq!(convert_case(PASCAL, Case::Snake), SNAKE);
+        assert_eq!(convert_case(PASCAL, Case::UpperSnake), UPPER_SNAKE_STR);
+        assert_eq!(convert_case(PASCAL, Case::Camel), CAMEL);
+        assert_eq!(convert_case(PASCAL, Case::Pascal), PASCAL);
+        assert_eq!(convert_case(PASCAL, Case::Kebab), KEBAB);
+    }
+
+    #[test]
+    fn test_kebab_to_all() {
+        assert_eq!(convert_case(KEBAB, Case::Snake), SNAKE);
+        assert_eq!(convert_case(KEBAB, Case::UpperSnake), UPPER_SNAKE_STR);
+        assert_eq!(convert_case(KEBAB, Case::Camel), CAMEL);
+        assert_eq!(convert_case(KEBAB, Case::Pascal), PASCAL);
+        assert_eq!(convert_case(KEBAB, Case::Kebab), KEBAB);
     }
 }
