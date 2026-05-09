@@ -15,6 +15,12 @@ Luciferous Case Converter is a CLI tool built in Rust that transforms text betwe
 
 ## Installation
 
+### From crates.io
+
+```bash
+cargo install luciferous-case-converter
+```
+
 ### From Source
 
 1. Clone the repository
@@ -49,7 +55,7 @@ ExampleText
 
 ```bash
 $ case-converter -v
-case-converter 0.1.9
+case-converter 1.1.0
 ```
 
 ## Available Case Options
