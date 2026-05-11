@@ -1,6 +1,6 @@
 [package]
-name = "luciferous-case-converter"
-version = "1.1.1"
+name = "case-converter"
+version = "1.1.2"
 edition = "2021"
 description = "A CLI tool to convert text between different cases"
 license = "MIT"
