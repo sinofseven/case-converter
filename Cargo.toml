@@ -1,8 +1,8 @@
 [package]
 name = "luciferous-case-converter"
 version = "1.1.2"
-edition = "2021"
-description = "A CLI tool to convert text between different cases"
+edition = "2024"
+description = "Convert text between case styles: snake_case, camelCase, PascalCase, kebab-case and more."
 license = "MIT"
 repository = "https://github.com/sinofseven/case-converter"
 homepage = "https://github.com/sinofseven/case-converter"
