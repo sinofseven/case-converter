@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.3] - 2026-05-18
+
+### Added
+- Homebrew installation instructions in README
+- Rust build caching via Swatinem/rust-cache in CI/CD pipeline
+- Docker-based cross-compilation for ARM targets (rust-musl-cross container)
+
+### Changed
+- Cargo.toml edition updated from 2021 to 2024
+- Improved package description in Cargo.toml for better clarity and discoverability
+- ARM build process now uses Docker containers for better reproducibility and reliability
+- Extended .gitignore with development-related entries (.idea/, tmp/, settings.local.json, .DS_Store)
+
+### Fixed
+- Package name for crates.io publication: now uses `luciferous-case-converter` instead of `case-converter`
+
 ## [1.1.2] - 2026-05-11
 
 ### Added
@@ -48,7 +64,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Homebrew installation support
 - crates.io publication
 
-[Unreleased]: https://github.com/sinofseven/case-converter/compare/v1.1.2...HEAD
+[Unreleased]: https://github.com/sinofseven/case-converter/compare/v1.1.3...HEAD
+[1.1.3]: https://github.com/sinofseven/case-converter/compare/v1.1.2...v1.1.3
 [1.1.2]: https://github.com/sinofseven/case-converter/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/sinofseven/case-converter/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/sinofseven/case-converter/compare/v1.0.0...v1.1.0
