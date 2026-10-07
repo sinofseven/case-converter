@@ -31,7 +31,7 @@ jobs:
         env:
           TMP_DIR: tmp/package/${{ env.BINARY_NAME }}_${{ github.ref_name }}_${{ env.TARGET }}
           SOURCE_BINARY: target/${{ env.TARGET }}/release/${{ env.BINARY_NAME }}
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         if: ${{ github.ref_type == 'tag' }}
         with:
           name: tmp-${{ env.TARGET }}
@@ -59,7 +59,7 @@ jobs:
         env:
           TMP_DIR: tmp/package/${{ env.BINARY_NAME }}_${{ github.ref_name }}_${{ env.TARGET }}
           SOURCE_BINARY: target/${{ env.TARGET }}/release/${{ env.BINARY_NAME }}
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         if: ${{ github.ref_type == 'tag' }}
         with:
           name: tmp-${{ env.TARGET }}
@@ -86,7 +86,7 @@ jobs:
         env:
           TMP_DIR: tmp/package/${{ env.BINARY_NAME }}_${{ github.ref_name }}_${{ env.TARGET }}
           SOURCE_BINARY: target/${{ env.TARGET }}/release/${{ env.BINARY_NAME }}
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         if: ${{ github.ref_type == 'tag' }}
         with:
           name: tmp-${{ env.TARGET }}
@@ -111,7 +111,7 @@ jobs:
         env:
           TMP_DIR: tmp/package/${{ env.BINARY_NAME }}_${{ github.ref_name }}_${{ env.TARGET }}
           SOURCE_BINARY: target/${{ env.TARGET }}/release/${{ env.BINARY_NAME }}
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         if: ${{ github.ref_type == 'tag' }}
         with:
           name: tmp-${{ env.TARGET }}
@@ -138,7 +138,7 @@ jobs:
         env:
           TMP_DIR: tmp/package/${{ env.BINARY_NAME }}_${{ github.ref_name }}_${{ env.TARGET }}
           SOURCE_BINARY: target/${{ env.TARGET }}/release/${{ env.BINARY_NAME }}
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         if: ${{ github.ref_type == 'tag' }}
         with:
           name: tmp-${{ env.TARGET }}
@@ -153,7 +153,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@6bed0761d98439e5a578e2877258200ad565ba87 # stable
       - run: cargo install --locked --features cli cargo-about
       - run: cargo about generate about.hbs > ${{ env.THIRD_PARTY_LICENSE_OUTPUT }}
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: third_party_licenses
           path: ${{ env.THIRD_PARTY_LICENSE_OUTPUT }}
